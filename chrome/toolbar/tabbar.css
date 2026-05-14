@@ -143,7 +143,7 @@
 #tabbrowser-tabs {
   &[orient="horizontal"] {
     --tab-max-width: 240px !important;
-    --tabstrip-min-height: auto !important;
+    --tabstrip-min-height: var(--tab-min-height) !important;
 
     /* Remove the border from the left of the tab bar. */
     border-inline: none !important;
@@ -155,6 +155,22 @@
     /* Pull tabs closer to toolbar buttons when overflowed. */
     &[overflow]:not([haspinnedtabs]) {
       margin-inline-start: -2px !important;
+    }
+
+    /* Firefox 150 lets the scrollbox controls affect the tabstrip block size
+     * when tab overflow is active. Keep the overflowed strip at tab height. */
+    &[overflow] > #tabbrowser-arrowscrollbox {
+      block-size: var(--tab-min-height) !important;
+      min-block-size: var(--tab-min-height) !important;
+      max-block-size: var(--tab-min-height) !important;
+    }
+
+    &[overflow] > #tabbrowser-arrowscrollbox::part(scrollbox),
+    &[overflow] > #tabbrowser-arrowscrollbox::part(scrollbutton-up),
+    &[overflow] > #tabbrowser-arrowscrollbox::part(scrollbutton-down) {
+      block-size: var(--tab-min-height) !important;
+      min-block-size: var(--tab-min-height) !important;
+      max-block-size: var(--tab-min-height) !important;
     }
 
     /* Remove gap between pinned and unpinned tabs. */
@@ -171,7 +187,10 @@
 
 /* Tab scrolling buttons. */
 #scrollbutton-up:not(.menupopup-scrollbutton),
-#scrollbutton-down:not(.menupopup-scrollbutton) {
+#scrollbutton-down:not(.menupopup-scrollbutton),
+#tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbutton-up),
+#tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbutton-down) {
+  box-sizing: border-box !important;
   border-width: 2px !important;
   border-radius: calc(var(--toolbarbutton-border-radius) + 2px) !important;
   padding-inline: calc(var(--toolbarbutton-inner-padding) - 4px) !important;
@@ -180,11 +199,13 @@
 
 /* Add margin to the side of the button facing the tabs so the buttons line up
  * on the opposite side with others in the toolbar. */
-#scrollbutton-up:not(.menupopup-scrollbutton) {
+#scrollbutton-up:not(.menupopup-scrollbutton),
+#tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbutton-up) {
   margin-inline: 0 2px !important;
 }
 
-#scrollbutton-down:not(.menupopup-scrollbutton) {
+#scrollbutton-down:not(.menupopup-scrollbutton),
+#tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbutton-down) {
   margin-inline: 2px 0 !important;
 }
 
@@ -721,7 +742,8 @@
 }
 
 /* Make room for the tab shadows so they aren't clipped at the top. */
-.scrollbox-clip > scrollbox {
+.scrollbox-clip > scrollbox,
+#tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbox) {
   padding-top: var(--uc-padding-top, 0) !important;
   margin-top: var(--uc-margin-top, 0) !important;
   /* Used to fix tab overflow issue with rounded corners. */
