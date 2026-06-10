@@ -195,6 +195,11 @@
   margin-inline-start: var(--uc-toolbarbutton-tab-gap) !important;
 }
 
+/* Align the vertical new tab button with vertical tabs. */
+#tabbrowser-tabs[orient="vertical"] #tabs-newtab-button {
+  margin-inline: 8px !important;
+}
+
 /* Tab scrolling buttons. */
 #scrollbutton-up:not(.menupopup-scrollbutton),
 #scrollbutton-down:not(.menupopup-scrollbutton),
@@ -298,12 +303,27 @@
   }
 }
 
+/* Vertical tab inner content padding. */
+#tabbrowser-tabs[orient="vertical"] .tab-content {
+  padding-inline: 14px 6px !important;
+}
+
 /* Space between tab icons and the tab titles. */
 .tab-throbber:not([pinned]),
 .tab-icon-pending:not([pinned]),
 .tab-icon-image:not([pinned]),
 .tab-sharing-icon-overlay:not([pinned]) {
   margin-inline-end: calc(var(--inline-tab-padding) - 1px) !important;
+}
+
+/* Space between vertical tab icons and titles. */
+#tabbrowser-tabs[orient="vertical"] {
+  & .tab-throbber:not([pinned]),
+  & .tab-icon-pending:not([pinned]),
+  & .tab-icon-image:not([pinned]),
+  & .tab-sharing-icon-overlay:not([pinned]) {
+    margin-inline-end: 9px !important;
+  }
 }
 
 /* Make sure that the tabs are the correct height. */
@@ -323,6 +343,11 @@
   height: 17px !important;
   padding: 4px !important;
   border-radius: var(--toolbarbutton-border-radius) !important;
+}
+
+/* Keep vertical tab close buttons away from the outer edge. */
+#tabbrowser-tabs[orient="vertical"] .tab-close-button {
+  margin-inline-end: 10px !important;
 }
 
 /* Ensure that unselected tabs use full opacity and correct colours.
@@ -410,7 +435,7 @@
 */
 /* #region */
 
-.tab-background {
+#tabbrowser-tabs[orient="horizontal"] .tab-background {
   border-radius: var(--tab-border-radius);
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -497,7 +522,7 @@
  * If the next tab is hidden, then find the next visible tab which would be
  * positioned next to the active tab.
  */
-.tabbrowser-tab:is([selected], [multiselected]):not([hidden]) {
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:is([selected], [multiselected]):not([hidden]) {
   & + .tabbrowser-tab .tab-background:not([selected]),
   & + .tabbrowser-tab[hidden] ~ .tabbrowser-tab:not([hidden]):is([hidden] + *) .tab-background:not([selected]) {
     border-bottom-left-radius: var(--tab-border-radius) !important;
@@ -593,7 +618,7 @@
 */
 /* #region */
 
-.tabbrowser-tab .tab-stack {
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab .tab-stack {
   /* Both side separators. */
   &::before,
   &::after {
@@ -625,7 +650,7 @@
   }
 }
 
-.tabbrowser-tab:not([selected], [multiselected], :hover) {
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:not([selected], [multiselected], :hover) {
   /* Set separator color and add separator for last visible tab. */
   :not(tab-group) > & {
     /* All tabs. */
@@ -670,7 +695,7 @@
  *
  * If the next tab is hidden, then find the next visible tab.
  */
-.tabbrowser-tab:is([selected], [multiselected], :hover):not([hidden]) {
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab:is([selected], [multiselected], :hover):not([hidden]) {
   & + .tabbrowser-tab .tab-stack::before,
   tab-group:has(&:last-of-type) + .tabbrowser-tab .tab-stack::before,
   & + .tabbrowser-tab[hidden] ~ .tabbrowser-tab:not([hidden]):is([hidden] + *) .tab-stack::before {
@@ -690,9 +715,9 @@
  *
  * If there are no buttons before the tabs, hide the separator.
  */
-:root[privatebrowsingmode] #firefox-view-button + #tabbrowser-tabs:not(.toolbarbutton-1:not(#fxa-toolbar-menu-button) + #firefox-view-button + #tabbrowser-tabs),
-#fxa-toolbar-menu-button + #tabbrowser-tabs,
-#tabbrowser-tabs:first-child {
+:root[privatebrowsingmode] #firefox-view-button + #tabbrowser-tabs[orient="horizontal"]:not(.toolbarbutton-1:not(#fxa-toolbar-menu-button) + #firefox-view-button + #tabbrowser-tabs),
+#fxa-toolbar-menu-button + #tabbrowser-tabs[orient="horizontal"],
+#tabbrowser-tabs[orient="horizontal"]:first-child {
   & .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden])) .tab-stack::before {
     border-color: transparent !important;
   }
@@ -734,7 +759,7 @@
 }
 
 /* Apply tab shadows. */
-#tabbrowser-tabs .tab-background:is([selected], [multiselected]),
+#tabbrowser-tabs[orient="horizontal"] .tab-background:is([selected], [multiselected]),
 #TabsToolbar #firefox-view-button[open] > .toolbarbutton-icon {
   box-shadow: var(--uc-tab-shadow) !important;
 }
@@ -752,7 +777,7 @@
 }
 
 /* Make room for the tab shadows so they aren't clipped at the top. */
-.scrollbox-clip > scrollbox,
+#tabbrowser-tabs[orient="horizontal"] .scrollbox-clip > scrollbox,
 #tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbox) {
   padding-top: var(--uc-padding-top, 0) !important;
   margin-top: var(--uc-margin-top, 0) !important;
@@ -761,7 +786,7 @@
 }
 
 /* Add some room horizontally for the tab shadows and rounded corners. */
-#tabbrowser-tabs {
+#tabbrowser-tabs[orient="horizontal"] {
   &:not([overflow]) {
     margin-inline-start: -8px !important;
     margin-inline-end: calc(-1 * var(--tab-border-radius)) !important;
@@ -777,7 +802,7 @@
 }
 
 /* Clip the bottom of the tabs so the shadows don't bleed into other areas. */
-#tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
+#tabbrowser-tabs[orient="horizontal"][positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
   clip-path: inset(-8px -8px 0) !important;
 }
 /* #endregion */
