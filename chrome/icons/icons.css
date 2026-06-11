@@ -802,6 +802,18 @@
     --menu-image: url("new-tab-image.svg");
   }
 
+  #toolbar-context-toggle-vertical-tabs,
+  #sidebar-context-menu-enable-vertical-tabs {
+    --menu-image: url("vertical_tabs_on.svg");
+  }
+
+  @media -moz-pref("sidebar.verticalTabs") {
+    #toolbar-context-toggle-vertical-tabs,
+    #sidebar-context-menu-enable-vertical-tabs {
+      --menu-image: url("vertical_tabs_off.svg");
+    }
+  }
+
   #context-openlinkinusercontext-menu,
   menu[id="placesContext_open:newcontainertab"],
   menu[id="placesContext_openContainer:tabs"] {
