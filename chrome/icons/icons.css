@@ -908,6 +908,14 @@
     --menu-image: url("bookmark-star-on-tray.svg");
   }
 
+  #BMB_viewBookmarksSidebar {
+    --menu-image: url("sidebars.svg");
+  }
+
+  #BMB_searchBookmarks {
+    --menu-image: url("search-glass.svg");
+  }
+
   menuitem[id="placesContext_show_bookmark:info"],
   menuitem[id="placesContext_show_folder:info"],
   menuitem[id="placesContext_show:info"] {
