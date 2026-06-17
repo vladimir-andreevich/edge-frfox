@@ -54,7 +54,11 @@
       0 -.8px 0 0 rgb(0 0 0 / 0.02),
       0 0.5px 1px 1px rgb(0 0 0 / 0.06),
       0 1px 1px rgb(0 0 0 / 0.1);
+
+    /* Firefox <= 151 */
     --browser-frame-bgcolor: var(--toolbar-bgcolor, var(--lwt-accent-color));
+    /* Nova | Firefox >= 152 */
+    --uc-browser-frame-background-color: var(--toolbar-background-color, var(--browser-frame-bgcolor));
 
     /* Different shadow for higher resolution displays. */
     @media (resolution > 1.8dppx) {
@@ -64,10 +68,16 @@
     }
 
     @media -moz-pref("uc.tweak.floating-tabs") {
+      /* Firefox <= 151 */
       --browser-frame-bgcolor: var(--lwt-accent-color);
+      /* Nova | Firefox >= 152 */
+      --uc-browser-frame-background-color: var(--browser-frame-bgcolor);
 
       &:-moz-window-inactive {
+        /* Firefox <= 151 */
         --browser-frame-bgcolor: var(--lwt-accent-color-inactive, var(--lwt-accent-color));
+        /* Nova | Firefox >= 152 */
+        --uc-browser-frame-background-color: var(--browser-frame-bgcolor);
       }
     }
   }
@@ -112,9 +122,16 @@
       border-radius: inherit;
       /* Draw toolbar background on the negative corner space, then draw the
        * same shadow from the browser window on top. */
+
+      /* Firefox <= 151 */
       box-shadow:
         var(--uc-tweak-rounded-corners-shadow, 0 0 transparent),
         0 0 0 16px var(--browser-frame-bgcolor) !important;
+      /* Nova | Firefox >= 152 */
+      box-shadow:
+        var(--uc-tweak-rounded-corners-shadow, 0 0 transparent),
+        0 0 0 16px var(--uc-browser-frame-background-color, var(--browser-frame-bgcolor)) !important;
+
       clip-path: inset(0);
       pointer-events: none;
     }
@@ -201,7 +218,10 @@
 
   /* Apply colour to the frame around the browser window. */
   #browser {
+    /* Firefox <= 151 */
     background-color: var(--browser-frame-bgcolor) !important;
+    /* Nova | Firefox >= 152 */
+    background-color: var(--uc-browser-frame-background-color, var(--browser-frame-bgcolor)) !important;
   }
 
   /* Change colour of page when loading */

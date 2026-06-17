@@ -26,7 +26,12 @@
 bugs with certain themes eg. dark text on dark background.) */
 @media -moz-pref("uc.tweak.force-tab-colour") {
   :root[lwtheme] {
+    /* Firefox <= 151 */
     --tab-selected-bgcolor: var(--toolbar-bgcolor) !important;
+    /* Nova | Firefox >= 152 */
+    --tab-background-color-selected: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
+    
     --tab-selected-textcolor: var(--toolbar-color) !important;
   }
 }
@@ -54,8 +59,18 @@ bugs with certain themes eg. dark text on dark background.) */
   :root[privatebrowsingmode="temporary"]:where([style*="--lwt-accent-color: rgb(28, 27, 34)"]:not([style*="--newtab-background-color-secondary: rgb(66, 65, 77)"])) {
     --lwt-accent-color: light-dark(#f3f3f3, #202020) !important;
     --lwt-accent-color-inactive: unset !important;
+    
+    /* Firefox <= 151 */
     --toolbar-bgcolor: light-dark(#fff, #3F3F3F) !important;
+    /* Nova | Firefox >= 152 */
+    --toolbar-background-color: var(--toolbar-bgcolor) !important;
+    --tab-background-color-selected: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
+    /* Firefox <= 151 */
     --lwt-tab-text: light-dark(#262626, #fff) !important;
+    /* Nova | Firefox >= 152 */
+    --tab-selected-textcolor: var(--lwt-tab-text) !important;
+
     --chrome-content-separator-color: light-dark(#bfbfbf, #535353) !important;
     --lwt-tab-line-color: light-dark(transparent, rgb(255 255 255 / 0.06)) !important;
   }
@@ -64,20 +79,39 @@ bugs with certain themes eg. dark text on dark background.) */
    * --toolbar-color. */
   :root body {
     /* Use tabbar colours for better readability when using custom themes. */
+    
+    /* Firefox <= 151 */
     --toolbar-color: var(--lwt-text-color) !important;
+    /* Nova | Firefox >= 152 */
+    --toolbar-text-color: var(--lwt-text-color) !important;
+    
     --toolbarbutton-icon-fill: var(--lwt-text-color) !important;
 
     &:-moz-window-inactive {
+      /* Firefox <= 151 */
       --toolbar-color: var(--lwt-text-color-inactive, var(--lwt-text-color)) !important;
+      /* Nova | Firefox >= 152 */
+      --toolbar-text-color: var(--lwt-text-color-inactive, var(--lwt-text-color)) !important;
+      
       --toolbarbutton-icon-fill:  var(--lwt-text-color-inactive, var(--lwt-text-color)) !important;
     }
   }
 
   @media (-moz-gtk-csd-available) {
     :root:not([lwtheme]) {
+      /* Firefox <= 151 */
       --toolbar-bgcolor: color-mix(in srgb, -moz-dialog 80%, #fff) !important;
+      /* Nova | Firefox >= 152 */
+      --toolbar-background-color: var(--toolbar-bgcolor) !important;
+      --tab-background-color-selected: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+      
       --toolbar-field-background-color: Field !important;
+
+      /* Firefox <= 151 */
       --lwt-tab-text: -moz-dialogtext !important;
+      /* Nova | Firefox >= 152 */
+      --tab-selected-textcolor: var(--lwt-tab-text) !important;
+
       --lwt-tab-line-color: rgb(255 255 255 / 0.06) !important;
       --lwt-accent-color: var(--toolbox-non-lwt-bgcolor) !important;
 

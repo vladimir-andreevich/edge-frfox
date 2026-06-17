@@ -30,7 +30,12 @@
     --inline-tab-padding: 11px !important;
     --uc-inline-pinned-tab-padding: 12px !important;
     --tab-border-radius: 4px !important;
+    
+    /* Firefox <= 151 */
     --toolbarbutton-inner-padding: 6px !important;
+    /* Nova | Firefox >= 152 */
+    --toolbarbutton-padding-inner: var(--toolbarbutton-inner-padding) !important;
+    
     --uc-toolbarbutton-inner-inline-padding: 8px !important;
     --toolbarbutton-border-radius: 4px !important;
     --tabs-navbar-shadow-size: 0px !important;
@@ -167,7 +172,7 @@
       margin-inline-start: -2px !important;
     }
 
-    /* Firefox 150 lets the scrollbox controls affect the tabstrip block size
+    /* Firefox 147+ lets the scrollbox controls affect the tabstrip block size
      * when tab overflow is active. Keep the overflowed strip at tab height. */
     &[overflow] > #tabbrowser-arrowscrollbox {
       block-size: var(--tab-min-height) !important;
@@ -272,8 +277,10 @@
   padding-inline: 0 !important;
   
 
-  /* Enforce tab foreground colour. */
-  &:is([visuallyselected], [multiselected]) {
+  /* Enforce tab foreground colour.
+   * Firefox <= 151: [visuallyselected].
+   * Nova | Firefox >= 152: [selected]. */
+  &:is([visuallyselected], [selected], [multiselected]) {
     color: var(--tab-selected-textcolor) !important;
 
     &:-moz-window-inactive {
@@ -483,7 +490,11 @@
 
   /* Make sure that the bottom corners have the same background colour. */
   &:is([selected], [multiselected]) {
+    /* Firefox <= 151 */
     --uc-tab-corner-bg: var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color, var(--toolbar-bgcolor)));
+    /* Nova | Firefox >= 152 */
+    --uc-tab-corner-bg: var(--tab-background-color-selected, var(--tab-selected-bgcolor, var(--lwt-selected-tab-background-color, var(--toolbar-background-color, var(--toolbar-bgcolor)))));
+
     --uc-tab-corner-outline: var(--lwt-tab-line-color, transparent);
     /* Disable tab outlines when selected. */
     outline: none !important;
@@ -500,8 +511,13 @@
       --uc-tab-corner-bg: rgb(255 255 255 / .3) !important;
 
       @media -moz-pref("uc.tweak.floating-tabs") {
+        /* Firefox <= 151 */
         background-color: var(--toolbar-bgcolor) !important;
         --uc-tab-corner-bg: var(--toolbar-bgcolor) !important;
+        /* Nova | Firefox >= 152 */
+        background-color: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+        --uc-tab-corner-bg: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
       }
     }
   }
@@ -842,10 +858,19 @@
   /* Allow space for the gradient to underlay other toolbar items. */
   margin-inline: -16px -16px !important;
   padding-inline: 32px 24px !important;
+
+  /* Firefox <= 151 */
   color: var(--button-primary-color, var(--toolbar-bgcolor)) !important;
+  /* Nova | Firefox >= 152 */
+  color: var(--button-text-color-primary, var(--button-primary-color, var(--toolbar-background-color, var(--toolbar-bgcolor)))) !important;
+
   text-shadow: none !important;
   background: var(--uc-gradient);
+
+  /* Firefox <= 151 */
   --uc-bg-color: var(--button-primary-bgcolor, var(--toolbarbutton-icon-fill-attention));
+  /* Nova | Firefox >= 152 */
+  --uc-bg-color: var(--button-background-color-primary, var(--button-primary-bgcolor, var(--toolbarbutton-icon-fill-attention)));
 
   /* Primay gradient, fades to transparent on the left. */
   --uc-gradient: linear-gradient(to right, transparent, var(--uc-bg-color) 35%);

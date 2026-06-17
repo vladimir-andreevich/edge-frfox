@@ -5,10 +5,19 @@
   MARK: Variables
 */
 :root {
+  /* Firefox <= 151 */
   --toolbarbutton-border-radius: 4px !important;
   --toolbarbutton-inner-padding: 7px !important;
+  /* Nova | Firefox >= 152 */
+  --toolbarbutton-padding-inner: var(--toolbarbutton-inner-padding) !important;
+  
   --uc-toolbarbutton-inner-inline-padding: 12px !important;
+  
+  /* Firefox <= 151 */
   --toolbarbutton-outer-padding: 2px !important;
+  /* Nova | Firefox >= 152 */
+  --toolbarbutton-padding-outer: var(--toolbarbutton-outer-padding) !important;
+  
   --tabs-navbar-shadow-size: 0px !important;
 }
 

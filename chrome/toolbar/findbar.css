@@ -48,10 +48,16 @@ findbar .close-icon {
   border-radius: var(--toolbarbutton-border-radius) !important;
 
   &:not([disabled]):hover {
+    /* Firefox <= 151 */
     background-color: var(--toolbarbutton-hover-background, rgb(190 190 190 / .2)) !important;
+    /* Nova | Firefox >= 152 */
+    background-color: var(--toolbarbutton-background-color-hover, var(--toolbarbutton-hover-background, rgb(190 190 190 / .2))) !important;
 
     &:active {
+      /* Firefox <= 151 */
       background-color: var(--toolbarbutton-active-background, rgb(190 190 190 / .4)) !important;
+      /* Nova | Firefox >= 152 */
+      background-color: var(--toolbarbutton-background-color-active, var(--toolbarbutton-active-background, rgb(190 190 190 / .4))) !important;
     }
   }
 }

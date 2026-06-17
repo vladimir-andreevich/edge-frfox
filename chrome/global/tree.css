@@ -11,23 +11,37 @@ treecol:not([hideheader="true"]),
 /* Change the background colour on hover */
 @media not (prefers-contrast) {
   treechildren::-moz-tree-row(hover) {
+    /* Firefox <= 151 */
     background-color: var(--toolbarbutton-hover-background) !important;
+    /* Nova | Firefox >= 152 */
+    background-color: var(--toolbarbutton-background-color-hover, var(--toolbarbutton-hover-background)) !important;
   }
 }
 
 /* Change the background colour when pressed */
 treechildren::-moz-tree-row(selected) {
+  /* Firefox <= 151 */
   background-color: var(--toolbarbutton-active-background) !important;
+  /* Nova | Firefox >= 152 */
+  background-color: var(--toolbarbutton-background-color-active, var(--toolbarbutton-active-background)) !important;
 }
 
 /* Change the background colour when focused */
 treechildren::-moz-tree-row(selected, focus) {
+  /* Firefox <= 151 */
   background-color: var(--button-primary-bgcolor) !important;
+  /* Nova | Firefox >= 152 */
+  background-color: var(--button-background-color-primary, var(--button-primary-bgcolor)) !important;
 }
 
 treechildren::-moz-tree-row(current, focus) {
   outline: var(--default-focusring);
+
+  /* Firefox <= 151 */
   outline-color: var(--button-primary-bgcolor) !important;
+  /* Nova | Firefox >= 152 */
+  outline-color: var(--button-background-color-primary, var(--button-primary-bgcolor)) !important;
+
   outline-offset: calc(-1 * var(--default-focusring-width));
 }
 
@@ -40,7 +54,10 @@ treechildren::-moz-tree-cell-text(selected) {
 treechildren::-moz-tree-image(selected, focus),
 treechildren::-moz-tree-twisty(selected, focus),
 treechildren::-moz-tree-cell-text(selected, focus) {
+  /* Firefox <= 151 */
   color: var(--button-primary-color) !important;
+  /* Nova | Firefox >= 152 */
+  color: var(--button-text-color-primary, var(--button-primary-color)) !important;
 }
 
 /* Spacing between icon and label */
@@ -56,8 +73,12 @@ treechildren::-moz-tree-separator {
 
 /* Change the colour of the drop feedback elements */
 treechildren::-moz-tree-cell-text(primary, dropOn) {
+  /* Firefox <= 151 */
   background-color: var(--button-primary-bgcolor) !important;
   color: var(--button-primary-color) !important;
+  /* Nova | Firefox >= 152 */
+  background-color: var(--button-background-color-primary, var(--button-primary-bgcolor)) !important;
+  color: var(--button-text-color-primary, var(--button-primary-color)) !important;
 }
 
 treechildren::-moz-tree-drop-feedback {

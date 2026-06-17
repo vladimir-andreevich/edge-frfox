@@ -53,7 +53,11 @@
     border-radius: var(--uc-urlbar-open-border-radius) !important;
     border-color: transparent !important;
     box-shadow: 0 10px 16px rgb(0 0 0 / 0.18), 0 3px 5px rgb(0 0 0 / 0.33) !important;
+
+    /* Firefox <= 151 */
     outline: 0.5px solid var(--arrowpanel-border-color) !important;
+    /* Nova | Firefox >= 152 */
+    outline: 0.5px solid var(--panel-border-color, var(--arrowpanel-border-color)) !important;
 
     :root:not([lwtheme]) & {
       outline-color: var(--panel-separator-color) !important;
@@ -110,13 +114,13 @@
 
 /* Keep URL bar in place when expanding. */
 #urlbar[breakout][breakout-extend] {
-  /* Firefox < v133 */
+  /* Firefox < 133 */
   &:not([style*="--urlbar-width"]) {
     left: 0 !important;
     width: 100% !important;
   }
 
-  /* Firefox >= v133 */
+  /* Firefox >= 133 */
   &[style*="--urlbar-width"] {
     margin-left: 0 !important;
     width: var(--urlbar-width) !important;
@@ -144,7 +148,10 @@
 /* Search engine indicator. */
 #urlbar-search-mode-indicator {
   :root:not([lwtheme]) & {
+    /* Firefox <= 151 */
     background-color: var(--urlbar-box-hover-bgcolor) !important;
+    /* Nova | Firefox >= 152 */
+    background-color: var(--urlbar-box-background-color-hover, var(--urlbar-box-hover-bgcolor)) !important;
   }
 
   & #urlbar-search-mode-indicator-title {

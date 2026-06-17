@@ -35,7 +35,11 @@
     /* Set background colour of the menu bar to maintain consistency with the navbar */
     @media not -moz-pref("uc.tweak.floating-tabs") {
       #toolbar-menubar {
+        /* Firefox <= 151 */
         background-color: var(--toolbar-bgcolor) !important;
+        /* Nova | Firefox >= 152 */
+        background-color: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
         color: var(--toolbar-color) !important;
       }
     }
@@ -89,7 +93,11 @@
 #sidebar-box:where([sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:not([hidden])),
 #sidebar-box:where([sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]:not([hidden])),
 #sidebar-box:where([sidebarcommand="tabcenter-reborn_ariasuni-sidebar-action"]:not([hidden])) {
+  /* Firefox <= 151 */
   --sidebar-background-color: var(--toolbar-bgcolor) !important;
+  /* Nova | Firefox >= 152 */
+  --sidebar-background-color: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
   --sidebar-text-color: var(--toolbar-color) !important;
   --sidebar-border-color: var(--chrome-content-separator-color) !important;
   position: relative !important;

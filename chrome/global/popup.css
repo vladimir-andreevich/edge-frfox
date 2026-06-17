@@ -418,7 +418,12 @@ panelview .toolbarbutton-1,
 */
 panel[type="autocomplete-richlistbox"] {
   --panel-shadow: none !important;
+
+  /* Firefox <= 151 */
   --panel-background: var(--arrowpanel-background) !important;
+  /* Nova | Firefox >= 152 */
+  --panel-background: var(--panel-background-color, var(--arrowpanel-background)) !important;
+
   --panel-color: var(--arrowpanel-color) !important;
   --panel-padding: var(--uc-contextmenu-padding) !important;
   --panel-border-radius: var(--uc-contextmenu-border-radius) !important;
@@ -532,18 +537,33 @@ panel[type="autocomplete-richlistbox"] {
     appearance: none !important;
   }
 
+  :is(menupopup, panel):where(:not([type="arrow"])) {
+    /* Nova | Firefox >= 152 */
+    --panel-background-color: var(--arrowpanel-background) !important;
+    --panel-color: var(--arrowpanel-color) !important;
+    --panel-border-color: var(--arrowpanel-border-color) !important;
+  }
+
   menupopup:not(.PanelUI-subView),
   menulist > menupopup:not(.PanelUI-subView) > menucaption {
     -moz-window-shadow: none !important;
     background: 0 !important;
     border: 0 !important;
+
+    /* Firefox <= 151 */
     color: var(--arrowpanel-color) !important;
+    /* Nova | Firefox >= 152 */
+    color: var(--panel-color, var(--arrowpanel-color)) !important;
   }
 
   .popup-internal-box,
   .menupopup-arrowscrollbox {
+    /* Firefox <= 151 */
     background: var(--arrowpanel-background) !important;
     border: 1px solid var(--arrowpanel-border-color) !important;
+    /* Nova | Firefox >= 152 */
+    background: var(--panel-background-color, var(--arrowpanel-background)) !important;
+    border: 1px solid var(--panel-border-color, var(--arrowpanel-border-color)) !important;
   }
 
   /* make room for menu shadow */
@@ -833,8 +853,13 @@ dialog {
  * CSS reference: https://searchfox.org/mozilla-central/source/browser/components/tabpreview/tabpreview.css
  * Requires `browser.tabs.cardPreview.enabled` set to `true` */
 .tab-preview-container {
+  /* Firefox <= 151 */
   background-color: var(--arrowpanel-background) !important;
   color: var(--arrowpanel-color) !important;
+  /* Nova | Firefox >= 152 */
+  background-color: var(--panel-background-color, var(--arrowpanel-background)) !important;
+  color: var(--panel-color, var(--arrowpanel-color)) !important;
+
   border: 0.5px solid var(--panel-separator-color) !important;
   border-radius: 8.5px !important;
 
