@@ -357,11 +357,8 @@
   margin-inline-end: 10px !important;
 }
 
-/* Ensure that unselected tabs use full opacity and correct colours.
- * Also ensures that the tab's icon is always visible.
- */
-.tab-label-container:not([selected="true"], [multiselected]),
-.tab-icon-stack[indicator-replaces-favicon] > :not(.tab-icon-overlay) {
+/* Ensure that unselected tab labels use full opacity and correct colours. */
+.tab-label-container:not([selected="true"], [multiselected]) {
   opacity: 1 !important;
 }
 
@@ -409,6 +406,32 @@
 #tabbrowser-tabs[closebuttons="activetab"] .tab-icon-overlay:not([crashed]) {
   top: -5.5px !important;
   inset-inline-end: -6px !important;
+}
+
+/* Workaround for the problematic state when collapsed vertical tabs show an extremely bold 
+ * audio indicator in the favicon slot. 
+ * Ideally, the icon from the theme should be used here, but this requires rewriting 
+ * the whole audio indicator logic. Changing sound hover "a bit" for the collapsed state 
+ * might require new styling rules. For simplicity, use this temporary solution for  
+ * the vertical tabs in the collapsed state. */
+#sidebar-main:not([expanded]) #tabbrowser-tabs[orient="vertical"] {
+  & .tab-icon-overlay[soundplaying]:not([crashed]) {
+    list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-playing-small.svg") !important;
+  }
+
+  & .tab-icon-overlay[muted]:not([crashed]) {
+    list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-muted-small.svg") !important;
+  }
+
+  & .tab-icon-overlay[activemedia-blocked]:not([crashed]) {
+    list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-blocked-small.svg") !important;
+  }
+
+  & .tab-icon-overlay:is([soundplaying], [muted], [activemedia-blocked]):not([crashed]) {
+    top: 0 !important;
+    inset-inline-end: auto !important;
+    margin-inline: 0 !important;
+  }
 }
 
 /* Set colour for the overlay tab audio indicator. */
