@@ -97,6 +97,7 @@
 
   & .urlbarView-row-inner {
     padding-block: 8px !important;
+    padding-inline: 12px !important;
   }
 
   /* Vertically align search suggestion thumbnail images. */
