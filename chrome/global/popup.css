@@ -544,6 +544,33 @@ panel[type="autocomplete-richlistbox"] {
     --panel-border-color: var(--arrowpanel-border-color) !important;
   }
 
+  /* Firefox 152 moved the autoscroll marker icon inside --panel-background-color:
+   *   rgba(...) no-repeat center url("chrome://global/skin/icons/autoscroll.svg")
+   *
+   * The generic panel rule above replaces --panel-background-color for every
+   * non-arrow panel with the theme's plain arrowpanel background. That is fine
+   * for normal popups, but #autoscroller is also a panel, so the replacement
+   * keeps the white circle and drops Firefox's built-in arrows from its center.
+   *
+   * Restore Firefox's own autoscroll background for this panel only, including
+   * the direction-specific built-in icons selected by the scrolldir attribute. */
+  .autoscroller {
+    --autoscroll-background-image: url("chrome://global/skin/icons/autoscroll.svg");
+    --panel-background-color: rgba(249, 249, 250, 0.8) no-repeat center var(--autoscroll-background-image) !important;
+    --panel-padding: 0 !important;
+    --panel-box-shadow: 0 0 var(--panel-box-shadow-margin) rgba(0, 0, 0, 0.2) !important;
+    --panel-box-shadow-margin: 4px !important;
+    --panel-border-radius: 100% !important;
+
+    &[scrolldir="NS"] {
+      --autoscroll-background-image: url("chrome://global/skin/icons/autoscroll-vertical.svg");
+    }
+
+    &[scrolldir="EW"] {
+      --autoscroll-background-image: url("chrome://global/skin/icons/autoscroll-horizontal.svg");
+    }
+  }
+
   menupopup:not(.PanelUI-subView),
   menulist > menupopup:not(.PanelUI-subView) > menucaption {
     -moz-window-shadow: none !important;
