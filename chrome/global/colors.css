@@ -106,8 +106,8 @@
   --arrowpanel-color: light-dark(#1c1c1c, #fff) !important;
   --arrowpanel-border-color: light-dark(#fff, #636363) !important;
   /* Nova | Firefox >= 152 */
+  --panel-text-color: var(--arrowpanel-color) !important;
   --panel-background-color: var(--arrowpanel-background) !important;
-  --panel-color: var(--arrowpanel-color) !important;
   --panel-border-color: var(--arrowpanel-border-color) !important;
 
   --arrowpanel-dimmed: light-dark(#565656, #565656) !important;
@@ -176,7 +176,7 @@
     --in-content-page-color: var(--arrowpanel-color) !important;
     /* Nova | Firefox >= 152 */
     --background-color-canvas: var(--panel-background-color) !important;
-    --text-color: var(--panel-color) !important;
+    --text-color: var(--panel-text-color) !important;
 
     /* Primary button */
     --in-content-primary-button-text-color: var(--button-primary-color) !important;
@@ -272,7 +272,7 @@
     border-color: var(--arrowpanel-border-color) !important;
     /* Nova | Firefox >= 152 */
     background-color: var(--panel-background-color, var(--arrowpanel-background)) !important;
-    color: var(--panel-color, var(--arrowpanel-color)) !important;
+    color: var(--panel-text-color, var(--arrowpanel-color)) !important;
     border-color: var(--panel-border-color, var(--arrowpanel-border-color)) !important;
 
   }
@@ -464,8 +464,8 @@ body {
     --arrowpanel-color: FieldText !important;
     --arrowpanel-border-color: light-dark(transparent, var(--panel-separator-color)) !important;
     /* Nova | Firefox >= 152 */
+    --panel-text-color: var(--arrowpanel-color) !important;
     --panel-background-color: var(--arrowpanel-background) !important;
-    --panel-color: var(--arrowpanel-color) !important;
     --panel-border-color: var(--arrowpanel-border-color) !important;
 
     --arrowpanel-dimmed: color-mix(in srgb, currentColor 17%, transparent) !important;
@@ -524,7 +524,7 @@ body {
     --input-border-color: color-mix(in srgb, currentColor 35%, var(--arrowpanel-background)) !important;
     /* Nova | Firefox >= 152 */
     --input-bgcolor: var(--panel-background-color, var(--arrowpanel-background)) !important;
-    --input-color: var(--panel-color, var(--arrowpanel-color)) !important;
+    --input-color: var(--panel-text-color, var(--arrowpanel-color)) !important;
     --input-border-color: color-mix(in srgb, currentColor 35%, var(--panel-background-color, var(--arrowpanel-background))) !important;
 
     /* Sidebar */
