@@ -873,7 +873,8 @@
 }
 
 /* Appearance & sizing for the private browsing indicator. */
-#private-browsing-indicator-with-label {
+#private-browsing-indicator-with-label /* Firefox <= 151: id */ ,
+.private-browsing-indicator-with-label /* Nova | Firefox >= 152: class */ {
   position: relative !important;
   isolation: isolate;
   font-size: 12px;
