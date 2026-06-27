@@ -28,8 +28,17 @@
 /*
   MARK: Toolbar buttons
 */
-#nav-bar .toolbarbutton-1>.toolbarbutton-icon {
-  width: calc(2 * var(--uc-toolbarbutton-inner-inline-padding) + 16px) !important;
+#nav-bar .toolbarbutton-1  {
+  >.toolbarbutton-icon {
+    width: calc(2 * var(--uc-toolbarbutton-inner-inline-padding) + 16px) !important;
+  }
+
+  /* Wide buttons (e.g. VPN) */
+  &:is(#ipprotection-button):not([overflowedItem="true"], [cui-areatype="panel"]) {
+    >.toolbarbutton-icon {
+        width: calc(2 * var(--uc-toolbarbutton-inner-inline-padding) + var(--size-image-small)) !important;
+      }
+  }
 }
 
 #nav-bar .toolbarbutton-1>.toolbarbutton-icon,
