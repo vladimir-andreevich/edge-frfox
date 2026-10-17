@@ -16,6 +16,10 @@
   --lwt-text-color-inactive: light-dark(#3A3A3A, #CBCBCB) !important;
   --tab-selected-textcolor: light-dark(#000, #fff) !important;
   --tab-selected-textcolor-inactive: light-dark(#3E3E3E, #CBCBCB) !important;
+
+  /* Nova no longer leaves unselected tabs transparent and adds an accent gradient. */
+  --tab-background-color: transparent !important;
+  --tab-border-color-accent: none !important;
   
   /* Firefox <= 151 */
   --tab-selected-bgcolor: var(--toolbar-bgcolor) !important;
@@ -70,6 +74,7 @@
   /* URL bar */
   --toolbar-field-background-color: light-dark(#fff, #2B2B2B) !important;
   --toolbar-field-color: light-dark(#000, #fff) !important;
+  --toolbar-field-text-color: var(--toolbar-field-color) !important;
   --toolbar-field-border-color: transparent !important;
 
   /* Firefox <= 151 */
@@ -78,7 +83,9 @@
   --toolbar-field-background-color-focus: var(--toolbar-field-focus-background-color) !important;
 
   --toolbar-field-focus-color: var(--toolbar-field-color) !important;
+  --toolbar-field-text-color-focus: var(--toolbar-field-focus-color) !important;
   --toolbar-field-focus-border-color: light-dark(#0055D780, #63ADE5) !important;
+  --toolbar-field-border-color-focus: var(--toolbar-field-focus-border-color) !important;
   --urlbar-icon-fill-opacity: 0.58 !important;
 
   /* Firefox <= 151 */
@@ -99,6 +106,10 @@
   --urlbarView-highlight-color: light-dark(#000, #fff) !important;
   --urlbarView-hover-background: light-dark(#e5e5e5, #444444) !important;
   --urlbarView-separator-color: light-dark(#EFEFEF, #5F5F5F) !important;
+  /* Firefox 157+ uses lowercase design tokens for suggestion colours. */
+  --urlbarview-background-color-selected: var(--urlbarView-highlight-background) !important;
+  --urlbarview-text-color-selected: var(--urlbarView-highlight-color) !important;
+  --urlbarview-background-color-hover: var(--urlbarView-hover-background) !important;
   /* Menus/panels */
 
   /* Firefox <= 151 */
@@ -147,6 +158,8 @@
   --button-text-color: var(--button-color) !important;
   --button-background-color-hover: var(--button-hover-bgcolor) !important;
   --button-background-color-active: var(--button-active-bgcolor) !important;
+  --button-border-color: transparent !important;
+  --button-border-radius: 8px !important;
 
   /* Text input field, e.g. bookmarks editor */
   --focus-outline-color: light-dark(#0055D780, #63ADE5) !important;
@@ -432,7 +445,10 @@ body {
     /* URL bar */
     --toolbar-field-background-color: light-dark(Field, color-mix(in srgb, Field 96%, -moz-dialogtext)) !important;
     --toolbar-field-color: FieldText !important;
+    --toolbar-field-text-color: var(--toolbar-field-color) !important;
     --toolbar-field-focus-border-color: light-dark(color-mix(in srgb, var(--focus-outline-color) 50%, transparent), var(--focus-outline-color)) !important;
+    --toolbar-field-text-color-focus: var(--toolbar-field-focus-color) !important;
+    --toolbar-field-border-color-focus: var(--toolbar-field-focus-border-color) !important;
 
     /* Firefox <= 151 */
     --toolbar-field-focus-background-color: var(--toolbar-field-background-color) !important;
@@ -457,6 +473,9 @@ body {
     --urlbarView-highlight-color: var(--toolbar-field-color) !important;
     --urlbarView-hover-background: var(--button-background-color-ghost-active) !important;
     --urlbarView-separator-color: var(--panel-separator-color) !important;
+    --urlbarview-background-color-selected: var(--urlbarView-highlight-background) !important;
+    --urlbarview-text-color-selected: var(--urlbarView-highlight-color) !important;
+    --urlbarview-background-color-hover: var(--urlbarView-hover-background) !important;
     /* Menus/panels */
 
     /* Firefox <= 151 */

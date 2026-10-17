@@ -31,6 +31,9 @@
   --uc-panel-menuitem-margin-block: var(--uc-arrowpanel-menuitem-margin-block);
   --panel-separator-padding-vertical: var(--panel-separator-margin-vertical) !important;
   --panel-separator-padding-horizontal: var(--panel-separator-margin-horizontal) !important;
+  --panel-separator-padding-block: var(--panel-separator-padding-vertical) !important;
+  --panel-separator-padding-inline: var(--panel-separator-padding-horizontal) !important;
+  --panel-separator-padding: var(--panel-separator-padding-block) var(--panel-separator-padding-inline) !important;
 
   --uc-panel-zoom-button-padding: 8px;
   --uc-panel-zoom-button-inline-padding: 9px;

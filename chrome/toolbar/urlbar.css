@@ -17,6 +17,13 @@
   --uc-urlbar-shadow: 0 0 4px rgb(0 0 0 / .1);
   --urlbarView-rich-suggestion-default-icon-size: 32px !important;
   --uc-urlbar-open-border-radius: 8px !important;
+  --urlbar-border-radius: var(--uc-urlbar-open-border-radius) !important;
+  --urlbarview-border-radius: var(--uc-urlbar-open-border-radius) !important;
+  --urlbar-background-overhang-open: 4px !important;
+  --urlbarView-margin-inline: 0px !important;
+  --urlbarView-row-gutter: 0px !important;
+  --urlbarView-row-padding-inline: 0px !important;
+  --urlbarView-padding: 0px !important;
 
   /* urlbar height */
   & #urlbar-container {
@@ -39,7 +46,7 @@
 /*
   MARK: URL bar
 */
-.urlbar-background,
+:is(#urlbar, .urlbar):not([open]:has(.urlbarView-background)) .urlbar-background,
 #searchbar {
   border-radius: calc(var(--urlbar-icon-border-radius) + 2px) !important;
 
@@ -47,22 +54,32 @@
   :root:not([lwtheme]) #nav-bar:not([brighttext]) & {
     box-shadow: var(--uc-urlbar-shadow, none);
   }
+}
 
-  /* Appearance when the URL bar is expanded. */
-  #urlbar[open] & {
-    border-radius: var(--uc-urlbar-open-border-radius) !important;
-    border-color: transparent !important;
-    box-shadow: 0 10px 16px rgb(0 0 0 / 0.18), 0 3px 5px rgb(0 0 0 / 0.33) !important;
+/* Expanded URL bar before the separate suggestions background was introduced. */
+#urlbar[open]:not(:has(.urlbarView-background)) .urlbar-background {
+  border-radius: var(--uc-urlbar-open-border-radius) !important;
+  border-color: transparent !important;
+  box-shadow: 0 10px 16px rgb(0 0 0 / 0.18), 0 3px 5px rgb(0 0 0 / 0.33) !important;
 
-    /* Firefox <= 151 */
-    outline: 0.5px solid var(--arrowpanel-border-color) !important;
-    /* Nova | Firefox >= 152 */
-    outline: 0.5px solid var(--panel-border-color, var(--arrowpanel-border-color)) !important;
+  /* Firefox <= 151 */
+  outline: 0.5px solid var(--arrowpanel-border-color) !important;
+  /* Nova | Firefox >= 152 */
+  outline: 0.5px solid var(--panel-border-color, var(--arrowpanel-border-color)) !important;
 
-    :root:not([lwtheme]) & {
-      outline-color: var(--panel-separator-color) !important;
-    }
+  :root:not([lwtheme]) & {
+    outline-color: var(--panel-separator-color) !important;
   }
+}
+
+/* Firefox 157+ paints the expanded input and suggestions on separate backgrounds.
+ * Use their shared variables so both halves have the same corners and shadow. */
+.urlbar:has(.urlbarView-background),
+#searchbar {
+  --urlbar-background-border-open: var(--urlbar-input-container-border-width) solid transparent !important;
+  --urlbar-background-border-top-radius-open: var(--urlbar-background-border-radius) !important;
+  --urlbar-background-box-shadow-open: 0 10px 16px rgb(0 0 0 / .18), 0 3px 5px rgb(0 0 0 / .33) !important;
+  --urlbar-input-container-outline-open-focused: transparent !important;
 }
 
 /* Add padding to sides of URL bar. */
@@ -81,6 +98,14 @@
   & .urlbarView-body-inner {
     width: 100% !important;
     margin-inline: 0 !important;
+  }
+
+  /* Extend suggestion rows to the new panel edges without moving the input. */
+  .urlbar:has(.urlbarView-background) & .urlbarView-body-inner {
+    width: auto !important;
+    margin: 0 calc(-1 * var(--urlbar-background-overhang-open)) calc(-1 * var(--urlbar-background-overhang-open)) !important;
+    padding-top: var(--urlbar-background-overhang-open) !important;
+    padding-bottom: var(--urlbarview-border-radius) !important;
   }
 
   /* Remove padding from top of URL bar results, not needed as URL bar input already has padding. */
@@ -172,7 +197,8 @@
 #urlbar-go-button,
 .search-go-button,
 #tracking-protection-icon-container,
-#identity-icon-box {
+#identity-icon-box,
+#trust-icon-container {
   padding-inline: var(--uc-urlbar-icon-inline-padding) !important;
   width: calc(var(--uc-urlbar-icon-inline-padding) * 2 + 16px) !important;
 }
