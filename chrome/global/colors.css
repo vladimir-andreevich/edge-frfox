@@ -217,6 +217,25 @@
   accent-color: var(--button-background-color-primary, var(--button-primary-bgcolor)) !important;
 }
 
+/* Match Firefox Nova built-in private tab to the toolbar, including its bottom corners.
+ * Older Firefox versions do not expose this effective theme id. */
+:root[privatebrowsingmode="temporary"][theme-effective-id="firefox-privatewindow@mozilla.org"] {
+  --tab-background-color-selected: var(--toolbar-background-color, var(--toolbar-bgcolor)) !important;
+
+  /* The toolbar colour is translucent. Paint the toolbox beneath it so the tab strip's inset shadow 
+   * cannot show through the selected tab. */
+  & #tabbrowser-tabs[orient="horizontal"] .tab-background:is([selected], [multiselected]) {
+    --uc-tab-corner-underlay: var(--toolbox-background-color, var(--lwt-accent-color));
+    background:
+      image(var(--uc-tab-corner-bg)),
+      image(var(--uc-tab-corner-underlay)) !important;
+
+    &:-moz-window-inactive {
+      --uc-tab-corner-underlay: var(--toolbox-background-color-inactive, var(--lwt-accent-color-inactive, var(--toolbox-background-color, var(--lwt-accent-color))));
+    }
+  }
+}
+
 /* Ensure that dark mode is enabled completely in private browsing mode. */
 @media -moz-pref("browser.theme.dark-private-windows") {
   :root[privatebrowsingmode="temporary"],

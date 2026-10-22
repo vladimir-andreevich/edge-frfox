@@ -496,7 +496,9 @@
       /* First shadow is a 1px outline for better theming support. */
       -1px -1px var(--uc-tab-corner-outline) inset,
       /* Second shadow is to add the background colour to the corner. */
-      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-bg) !important;
+      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-bg),
+      /* Opaque underlay for translucent selected tab colours, when supplied. */
+      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-underlay, transparent) !important;
   }
 
   /* Bottom right corner. */
@@ -508,7 +510,9 @@
       /* First shadow is a 1px outline for better theming support. */
       1px -1px var(--uc-tab-corner-outline) inset,
       /* Second shadow is to add the background colour to the corner. */
-      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-bg) !important;
+      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-bg),
+      /* Opaque underlay for translucent selected tab colours, when supplied. */
+      0 0 0 var(--tab-border-radius) var(--uc-tab-corner-underlay, transparent) !important;
   }
 
   /* Make sure that the bottom corners have the same background colour. */
