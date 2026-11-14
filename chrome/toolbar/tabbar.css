@@ -155,6 +155,19 @@
   border-inline-start: 0 !important;
 }
 
+/* Restore the top inset and selected-tab shadow after the Firefox Nova sidebar redesign. */
+@media -moz-pref("browser.nova.enabled") {
+  #sidebar-container:not(.chrome-block) #tabbrowser-tabs[orient="vertical"] {
+    padding-block-start: 8px !important;
+
+    @media not (forced-colors) {
+      &:not([noshadowfortests]) {
+        --tab-box-shadow-selected: var(--box-shadow-level-1) !important;
+      }
+    }
+  }
+}
+
 #tabbrowser-tabs {
   &[orient="horizontal"] {
     --tab-max-width: 240px !important;

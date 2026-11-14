@@ -259,6 +259,24 @@
   }
 }
 
+/* Restore the default sidebar surface beneath vertical tabs in Firefox Nova. */
+@media -moz-pref("browser.nova.enabled") and (not (forced-colors)) {
+  :root:not([lwtheme]) #sidebar-container:not(.chrome-block):has(#vertical-tabs[visible]) {
+    --toolbox-background-color: light-dark(#eaeaed, #1c1b22) !important;
+    --tab-text-color: var(--lwt-text-color) !important;
+    --tab-text-color-hover: var(--tab-text-color) !important;
+
+    background-color: var(--toolbox-background-color) !important;
+    background-image: none !important;
+    color: var(--tab-text-color) !important;
+
+    &:-moz-window-inactive {
+      --tab-text-color: var(--lwt-text-color-inactive, var(--lwt-text-color)) !important;
+      background-color: var(--toolbox-background-color-inactive, var(--toolbox-background-color)) !important;
+    }
+  }
+}
+
 /* Make sure that the tab toolbar opacity is always 1, inactive window colours
  * are already supplied by this theme. */
 :root[customtitlebar] #titlebar:-moz-window-inactive {
