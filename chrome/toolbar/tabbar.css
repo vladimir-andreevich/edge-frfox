@@ -201,7 +201,9 @@
       max-block-size: var(--tab-min-height) !important;
     }
 
-    /* Remove gap between pinned and unpinned tabs. */
+    /* Firefox 142+ uses a separate #pinned-tabs-container and no longer sets haspinnedtabs.
+     * https://bugzilla.mozilla.org/show_bug.cgi?id=1967136#c17
+     * Remove the gap in older versions that use a shared scroll box. */
     &[haspinnedtabs]:not([positionpinnedtabs]) .tabbrowser-tab:nth-child(1 of :not([pinned], [hidden])) {
       margin-inline-start: 0 !important;
     }
@@ -759,6 +761,18 @@
   }
 }
 
+/* Keep the trailing separator on the last pinned tab when the two scroll boxes meet.
+ * Hide it too when the adjacent unpinned tab is selected or hovered. */
+#tabbrowser-tabs[orient="horizontal"]:not([overflow]) > #pinned-tabs-container:not([overflowing]) {
+  &:has(> .tabbrowser-tab[pinned]:not([hidden])) ~ #tabbrowser-arrowscrollbox
+    > .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden]), tab-group, tab-split-view-wrapper) .tab-stack::before,
+  &:has(~ #tabbrowser-arrowscrollbox
+    > .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden]), tab-group, tab-split-view-wrapper):is([selected], [multiselected], :hover))
+    > .tabbrowser-tab[pinned]:nth-last-child(1 of .tabbrowser-tab[pinned]:not([hidden])) .tab-stack::after {
+    border-color: transparent !important;
+  }
+}
+
 /* Hide the first tab's separator for specific buttons before the tabs.
  *
  * If in private browsing mode, the Firefox View button is hidden, so the
@@ -847,12 +861,19 @@
     margin-inline-start: -8px !important;
     margin-inline-end: calc(-1 * var(--tab-border-radius)) !important;
 
-    :where(#tabbrowser-arrowscrollbox > :nth-child(1 of .tabbrowser-tab:not([hidden])):not(tab-group + *)) {
-      margin-inline-start: 8px !important;
+    /* Compensate at the start of the strip and remove the native gap after the pins. */
+    > #pinned-tabs-container:has(> .tabbrowser-tab[pinned]:not([hidden])) {
+      margin-inline: 8px 0 !important;
     }
 
-    #tabbrowser-arrowscrollbox > tab-group:nth-child(1 of :is(.tabbrowser-tab:not([hidden]), tab-group)) > .tab-group-label-container {
-      margin-inline-start: 8px !important;
+    &:not(:where(:has(> #pinned-tabs-container > .tabbrowser-tab[pinned]:not([hidden])))) {
+      :where(#tabbrowser-arrowscrollbox > :nth-child(1 of .tabbrowser-tab:not([hidden])):not(tab-group + *)) {
+        margin-inline-start: 8px !important;
+      }
+
+      #tabbrowser-arrowscrollbox > tab-group:nth-child(1 of :is(.tabbrowser-tab:not([hidden]), tab-group)) > .tab-group-label-container {
+        margin-inline-start: 8px !important;
+      }
     }
   }
 }
