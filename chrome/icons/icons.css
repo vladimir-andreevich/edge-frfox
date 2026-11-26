@@ -648,6 +648,7 @@
   }
 
   #context-selectall,
+  #edit-contextmenu-select-all,
   .textbox-contextmenu menuitem[cmd*="selectAll"],
   #context_selectAllTabs,
   #toolbar-context-selectAllTabs {
@@ -655,6 +656,7 @@
   }
 
   #context-undo,
+  #edit-contextmenu-undo,
   .textbox-contextmenu menuitem[cmd*="undo"],
   #context_undoCloseTab,
   #toolbar-context-undoCloseTab {
@@ -662,11 +664,13 @@
   }
 
   #context-redo,
+  #edit-contextmenu-redo,
   .textbox-contextmenu menuitem[cmd*="redo"] {
     --menu-image: url("edit-redo.svg");
   }
 
   #context-copy,
+  #edit-contextmenu-copy,
   .textbox-contextmenu menuitem[cmd*="copy"],
   #placesContext_copy {
     --menu-image: url("edit-copy.svg");
@@ -678,18 +682,21 @@
   }
 
   #context-paste,
+  #edit-contextmenu-paste,
   .textbox-contextmenu menuitem[cmd*="paste"],
   #placesContext_paste_group {
     --menu-image: url("edit-paste.svg");
   }
 
   #context-cut,
+  #edit-contextmenu-cut,
   .textbox-contextmenu menuitem[cmd*="cut"],
   #placesContext_cut {
     --menu-image: url("edit-cut.svg");
   }
 
   #context-delete,
+  #edit-contextmenu-delete,
   .customize-context-removeExtension,
   .unified-extensions-context-menu-remove-extension,
   .textbox-contextmenu menuitem[cmd*="delete"],
