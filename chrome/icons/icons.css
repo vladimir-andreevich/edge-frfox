@@ -140,6 +140,10 @@
   list-style-image: url("help.svg") !important;
 }
 
+#appMenu-tab-groups-button {
+  list-style-image: url("tab-group.svg") !important;
+}
+
 #new-tab-button {
   list-style-image: url("new-tab.svg") !important;
 }
@@ -807,6 +811,12 @@
   #context_openANewTab,
   #toolbar-context-openANewTab {
     --menu-image: url("new-tab-image.svg");
+  }
+
+  #context_moveTabToNewGroup,
+  #context_moveTabToGroup,
+  #context_addTabToGroup {
+    --menu-image: url("tab-group.svg");
   }
 
   #toolbar-context-toggle-vertical-tabs,
