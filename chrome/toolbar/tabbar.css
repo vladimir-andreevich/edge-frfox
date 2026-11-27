@@ -203,7 +203,8 @@
       max-block-size: var(--tab-min-height) !important;
     }
 
-    /* Firefox 142+ uses a separate #pinned-tabs-container and no longer sets haspinnedtabs.
+    /* Firefox 141+ uses a separate #pinned-tabs-container and no longer sets [haspinnedtabs].
+     * https://bugzilla.mozilla.org/show_bug.cgi?id=1964534
      * https://bugzilla.mozilla.org/show_bug.cgi?id=1967136#c17
      * Remove the gap in older versions that use a shared scroll box. */
     &[haspinnedtabs]:not([positionpinnedtabs]) .tabbrowser-tab:nth-child(1 of :not([pinned], [hidden])) {
@@ -857,6 +858,11 @@
   padding-inline-end: var(--uc-padding-inline-end, 0) !important;
 }
 
+/*
+Firefox has the following tab bar structure:
+https://searchfox.org/firefox-main/source/browser/base/content/navigator-toolbox.inc.xhtml
+*/
+
 #tabbrowser-tabs[orient="horizontal"] {
   &:not([overflow]) {
     /* Extend the strip 8px toward the toolbar buttons. */
@@ -875,10 +881,21 @@
       margin-inline-end: 0 !important;
     }
 
-    &:not(:where(:has(> #pinned-tabs-container > .tabbrowser-tab[pinned]:not([hidden])))) > #tabbrowser-arrowscrollbox {
-      > tab-group:nth-child(1 of :is(.tabbrowser-tab:not([hidden]), tab-group)) > .tab-group-label-container {
-        /* The strip padding already aligns a leading group with a leading tab.
-         * Clear the label's usual 6px leading margin. */
+    /* The whole tab container padding already aligns a tab group at the start
+     * of the tab strip. Clear the group's usual label margin in that position. */
+    &:not(:where(:has(
+      /* A visible pinned tab in the separate container in newer Firefox versions
+      comes before the scrollbox. */
+      > #pinned-tabs-container > .tabbrowser-tab[pinned]:not([hidden])
+    ))) {
+      > #tabbrowser-arrowscrollbox
+      > tab-group:nth-child(1 of
+        /* A visible standalone tab, including both a regular tab and
+        a pinned tab in Firefox < 141 in the shared scrollbox. */
+        .tabbrowser-tab:not([hidden]),
+        /* A tab group with the label; its tabs are children of the group. */
+        tab-group
+      ) > .tab-group-label-container {
         margin-inline-start: 0 !important;
       }
     }
