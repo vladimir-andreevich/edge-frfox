@@ -175,12 +175,14 @@
 
     /* Remove the border from the left of the tab bar. */
     border-inline: none !important;
+
+    /* Reserve the width of pinned tabs positioned outside the shared scrollbox. */
     padding-inline-start: var(--tab-overflow-pinned-tabs-width) !important;
 
     /* Add space above the tabs. */
     margin-top: var(--uc-tab-top-margin) !important;
 
-    /* Pull tabs closer to toolbar buttons when overflowed. */
+    /* Bring the overflowing strip and its scroll controls closer to the toolbar buttons. */
     &[overflow]:not([haspinnedtabs]) {
       margin-inline-start: -2px !important;
     }
@@ -851,28 +853,33 @@
 #tabbrowser-arrowscrollbox[orient="horizontal"]::part(scrollbox) {
   padding-top: var(--uc-padding-top, 0) !important;
   margin-top: var(--uc-margin-top, 0) !important;
-  /* Used to fix tab overflow issue with rounded corners. */
+  /* Leave room for rounded corners at the scroll end when the strip overflows. */
   padding-inline-end: var(--uc-padding-inline-end, 0) !important;
 }
 
-/* Add some room horizontally for the tab shadows and rounded corners. */
 #tabbrowser-tabs[orient="horizontal"] {
   &:not([overflow]) {
+    /* Extend the strip 8px toward the toolbar buttons. */
     margin-inline-start: -8px !important;
+
+    /* Extend the trailing edge by one corner radius to balance the scrollbox padding. */
     margin-inline-end: calc(-1 * var(--tab-border-radius)) !important;
 
-    /* Compensate at the start of the strip and remove the native gap after the pins. */
+    /* Balance the leading margin with 8px of strip padding to keep the first
+     * item aligned. The padding stays in place when a tab is dragged. */
+    padding-inline-start: calc(var(--tab-overflow-pinned-tabs-width, 0px) + 8px) !important;
+
+    /* Keep the pinned and unpinned sections flush. Earlier Firefox versions
+     * with a separate pinned container set a 12px trailing margin. */
     > #pinned-tabs-container:has(> .tabbrowser-tab[pinned]:not([hidden])) {
-      margin-inline: 8px 0 !important;
+      margin-inline-end: 0 !important;
     }
 
-    &:not(:where(:has(> #pinned-tabs-container > .tabbrowser-tab[pinned]:not([hidden])))) {
-      :where(#tabbrowser-arrowscrollbox > :nth-child(1 of .tabbrowser-tab:not([hidden])):not(tab-group + *)) {
-        margin-inline-start: 8px !important;
-      }
-
-      #tabbrowser-arrowscrollbox > tab-group:nth-child(1 of :is(.tabbrowser-tab:not([hidden]), tab-group)) > .tab-group-label-container {
-        margin-inline-start: 8px !important;
+    &:not(:where(:has(> #pinned-tabs-container > .tabbrowser-tab[pinned]:not([hidden])))) > #tabbrowser-arrowscrollbox {
+      > tab-group:nth-child(1 of :is(.tabbrowser-tab:not([hidden]), tab-group)) > .tab-group-label-container {
+        /* The strip padding already aligns a leading group with a leading tab.
+         * Clear the label's usual 6px leading margin. */
+        margin-inline-start: 0 !important;
       }
     }
   }
