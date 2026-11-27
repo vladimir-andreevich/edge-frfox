@@ -502,11 +502,12 @@
     aspect-ratio: 1 / 1;
     bottom: 0 !important;
     pointer-events: none !important;
-    clip-path: inset(0);
   }
 
   /* Bottom left corner. */
   &::before {
+    /* Leave a small overlap at the tab and toolbar seams for fractional scaling. */
+    clip-path: inset(0 -0.75px -0.75px 0);
     border-bottom-right-radius: var(--tab-border-radius) !important;
     left: 0 !important;
     translate: calc(-1 * var(--tab-border-radius)) 0 !important;
@@ -521,6 +522,7 @@
 
   /* Bottom right corner. */
   &::after {
+    clip-path: inset(0 0 -0.75px -0.75px);
     border-bottom-left-radius: var(--tab-border-radius) !important;
     right: 0 !important;
     translate: var(--tab-border-radius) 0 !important;
@@ -856,6 +858,37 @@
   margin-top: var(--uc-margin-top, 0) !important;
   /* Leave room for rounded corners at the scroll end when the strip overflows. */
   padding-inline-end: var(--uc-padding-inline-end, 0) !important;
+}
+
+/* Reserve room for the outer tab corners without moving the tabs. */
+#tabbrowser-arrowscrollbox[orient="horizontal"],
+#pinned-tabs-container[orient="horizontal"] {
+  --uc-tab-scrollbox-corner-padding: var(--tab-border-radius);
+  --uc-tab-scrollbox-corner-margin: calc(-1 * var(--uc-tab-scrollbox-corner-padding));
+  --uc-tab-scrollbox-start-padding: var(--uc-tab-scrollbox-corner-padding);
+}
+
+/* When the strip overflows, Firefox can align the first item with the clip edge.
+ * Put the corner room inside its box so that alignment keeps the background in place. */
+#tabbrowser-arrowscrollbox[orient="horizontal"][overflowing]:has(
+  > .tabbrowser-tab:not([pinned]):nth-child(1 of .tabbrowser-tab:not([hidden]), tab-group, tab-split-view-wrapper)
+) {
+  --uc-tab-scrollbox-start-padding: 0px;
+
+  > .tabbrowser-tab:nth-child(1 of .tabbrowser-tab:not([hidden])) {
+    box-sizing: content-box !important;
+    padding-inline-start: var(--uc-tab-scrollbox-corner-padding) !important;
+  }
+}
+
+/* Match the shadow scrollbox directly because ::part() is ignored in user stylesheets.
+ * Preserve the corner room when Firefox scrolls a tab into view. */
+scrollbox[part="scrollbox"][orient="horizontal"] {
+  margin-inline: var(--uc-tab-scrollbox-corner-margin, revert) !important;
+  padding-inline-start: var(--uc-tab-scrollbox-start-padding, revert) !important;
+  padding-inline-end: var(--uc-tab-scrollbox-corner-padding, revert) !important;
+  scroll-padding-inline-start: var(--uc-tab-scrollbox-start-padding, revert) !important;
+  scroll-padding-inline-end: var(--uc-tab-scrollbox-corner-padding, revert) !important;
 }
 
 /*
