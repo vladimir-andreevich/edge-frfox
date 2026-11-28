@@ -148,10 +148,19 @@
   list-style-image: url("new-tab.svg") !important;
 }
 
+#allTabsMenu-searchTabs {
+  list-style-image: url("search-glass.svg") !important;
+}
+
+#allTabsMenu-containerTabsButton {
+  list-style-image: url("container-tab.svg") !important;
+}
+
 #firefox-view-button {
   list-style-image: url("firefox-view.svg") !important;
 }
 
+#allTabsMenu-viewAllTabs,
 #sync-button,
 .urlbarView-row[source="tabs"] > .urlbarView-row-inner > .urlbarView-no-wrap > .urlbarView-favicon,
 #urlbar-engine-one-off-item-tabs {
