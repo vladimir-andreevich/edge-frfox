@@ -15,6 +15,8 @@
   --arrowpanel-menuitem-margin: var(--uc-arrowpanel-menuitem-margin-block) var(--uc-arrowpanel-menuitem-margin-inline) !important;
   --arrowpanel-menuitem-padding-block: 6px !important;
   --arrowpanel-menuitem-padding-inline: 10px !important;
+  --uc-panel-menuicon-size: 16px;
+  --uc-panel-menuitem-min-height: calc(var(--uc-panel-menuicon-size) + var(--arrowpanel-menuitem-padding-block) * 2);
   --uc-arrowpanel-menuicon-margin-inline: 14px;
   --uc-arrowpanel-menuitem-margin-inline: 4px;
   --uc-arrowpanel-menuitem-margin-block: 2px;
@@ -95,7 +97,7 @@
 }
 
 .subviewbutton > .toolbarbutton-icon {
-  width: 16px !important;
+  width: var(--uc-panel-menuicon-size) !important;
 }
 
 /* firefox profile avatar in appmenu */
@@ -287,11 +289,14 @@
 }
 
 #PlacesToolbar menuitem,
-#PlacesToolbar menu,
+#PlacesToolbar menu {
+  min-height: calc(16px + var(--uc-contextmenu-menuitem-padding-block) * 2) !important;
+}
+
 panelview .toolbarbutton-1,
 .subviewbutton,
 .widget-overflow-list .toolbarbutton-1 {
-  min-height: calc(16px + var(--uc-contextmenu-menuitem-padding-block) * 2) !important;
+  min-height: var(--uc-panel-menuitem-min-height) !important;
 }
 
 /*
@@ -844,6 +849,12 @@ panel[type="autocomplete-richlistbox"] {
   }
 
   @media (not -moz-pref("uc.tweak.smaller-context-menu-text")) and (-moz-platform: windows) {
+    :root {
+      /* Windows label metrics shared by the app menu and both switchers. */
+      --uc-panel-menuitem-font-size: 13.6px;
+      --uc-panel-menuitem-label-margin-block: -3px -1px;
+    }
+
     .menu-text,
     .menu-iconic-text,
     panel .toolbarbutton-text,
@@ -851,7 +862,7 @@ panel[type="autocomplete-richlistbox"] {
     /* Used for vertical context navigation tweak. */
     #context-navigation > .menuitem-iconic::after {
       margin-inline-start: 0 !important;
-      margin-block: -3px -1px !important;
+      margin-block: var(--uc-panel-menuitem-label-margin-block) !important;
       padding-block: 0 !important;
     }
 
@@ -863,9 +874,199 @@ panel[type="autocomplete-richlistbox"] {
     panel[type="autocomplete-richlistbox"],
     /* Used for vertical context navigation tweak. */
     #context-navigation > .menuitem-iconic::after {
-      font-size: 13.6px !important;
+      font-size: var(--uc-panel-menuitem-font-size) !important;
     }
   }
+}
+
+/*
+  MARK: Search mode switcher
+*/
+
+/*
+  Nova | Firefox >= 151
+  Outer XUL panel around the HTML list. Proton uses the same markup.
+  Reset the inherited popup padding.
+*/
+panel.searchmode-switcher-panel {
+  --panel-padding: 0 !important;
+
+  /* The HTML panel-list scrolls within the outer panel and owns the body padding. */
+  > .searchmode-switcher-panel-list {
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    font: inherit !important;
+    padding: var(--panel-subview-body-padding) !important;
+  }
+}
+
+/*
+  Nova | Firefox >= 151
+  HTML panel-item host. Name it to scope the shadow styles.
+*/
+.searchmode-switcher-panel > .searchmode-switcher-panel-list > panel-item {
+  container-name: uc-searchmode-menu;
+  --uc-searchmode-menu: styled;
+}
+
+/*
+  Nova | Firefox >= 151
+  Button and label inside the panel-item shadow tree.
+  Use a style query to scope the rules because user styles cannot match ::part().
+*/
+@container uc-searchmode-menu style(--uc-searchmode-menu: styled) {
+  /* The shadow button is the row and paints its icon as a background. */
+  button[part~="button"] {
+    min-height: var(--uc-panel-menuitem-min-height) !important;
+    margin: var(--panel-menuitem-margin) !important;
+    padding: var(--panel-menuitem-padding-block) var(--panel-menuitem-padding-inline) !important;
+    padding-inline-start: calc(var(--panel-menuitem-padding-inline) + var(--uc-panel-menuicon-size) + var(--uc-panel-menuicon-margin-inline)) !important;
+    border-radius: var(--panel-menuitem-border-radius) !important;
+    align-items: center !important;
+    background-size: var(--uc-panel-menuicon-size) !important;
+    background-position: left var(--panel-menuitem-padding-inline) center !important;
+
+    &:is(:dir(rtl), :-moz-locale-dir(rtl)) {
+      background-position-x: right var(--panel-menuitem-padding-inline) !important;
+    }
+
+    /* The XUL label inside the HTML button displays the item name. */
+    > label[part~="label"] {
+      font-size: var(--uc-panel-menuitem-font-size, inherit) !important;
+      margin-block: var(--uc-panel-menuitem-label-margin-block, 0) !important;
+
+      &[value]:not([value=""])::before {
+        content: attr(value) !important;
+      }
+    }
+
+    /*
+      Firefox >= 159
+      Shortcut text inside the shadow button.
+    */
+    > .shortcut[part~="shortcut"] {
+      color: inherit !important;
+      opacity: 0.7 !important;
+    }
+  }
+}
+
+/*
+  Firefox <= 150
+  XUL search mode switcher. Firefox has used a menupopup here since 137.
+*/
+#searchmode-switcher-popup {
+  /* The inner .menupopup-arrowscrollbox draws the surface and shadow. */
+  --panel-background: var(--arrowpanel-background) !important;
+  --panel-color: var(--arrowpanel-color) !important;
+  --panel-border-color: var(--arrowpanel-border-color) !important;
+  --panel-border-radius: var(--arrowpanel-border-radius) !important;
+  --panel-padding: var(--panel-subview-body-padding) !important;
+  --uc-contextmenu-border-radius: var(--panel-border-radius);
+  --uc-contextmenu-padding: var(--panel-padding);
+  --uc-box-shadow: var(--panel-shadow) !important;
+  --uc-outline-color: transparent;
+
+  /* Give the outer menupopup the same spacing as an arrow panel. */
+  appearance: none !important;
+  -moz-window-shadow: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: calc(-1 * var(--panel-shadow-margin)) !important;
+}
+
+/*
+  Firefox <= 150
+  XUL menuitem rows, including their generated icons, labels, and accelerators.
+*/
+#searchmode-switcher-popup > menuitem {
+  appearance: none !important;
+
+  > :is(
+    .menu-icon, /* Firefox 139–150 */
+    .menu-iconic-left /* Firefox <= 138 */
+  ) {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Image slot used by both forms of the XUL row. */
+  :is(.menu-icon, .menu-iconic-icon) {
+    width: var(--uc-panel-menuicon-size) !important;
+    height: var(--uc-panel-menuicon-size) !important;
+    margin: 0 !important;
+  }
+
+  > :is(
+    .menu-text,  /* Firefox 139–150 */
+    .menu-iconic-text /* Firefox <= 138 */
+  ) {
+    padding-inline-start: var(--uc-panel-menuicon-margin-inline) !important;
+    padding-block: 0 !important;
+    margin-inline: 0 !important;
+    margin-block: var(--uc-panel-menuitem-label-margin-block, 0) !important;
+    font-size: var(--uc-panel-menuitem-font-size, inherit) !important;
+
+    /* Match toolbarbutton labels while preserving keyboard accelerators. */
+    &[value]:not([value=""])::before {
+      content: attr(value) !important;
+    }
+  }
+
+  /* Keyboard shortcut text at the end of the row. */
+  .menu-accel {
+    opacity: 0.7 !important;
+  }
+
+  /* Hover and keyboard selection use the same highlight. */
+  &:is(:hover, [_moz-menuactive]):not([disabled]) {
+    background-color: var(--button-background-color-menu-hover, var(--button-background-color-ghost-hover)) !important;
+    color: var(--button-text-color-menu-hover, var(--button-text-color-ghost-hover)) !important;
+  }
+
+  &:hover:active:not([disabled]) {
+    background-color: var(--button-background-color-menu-active, var(--button-background-color-ghost-active)) !important;
+    color: var(--button-text-color-menu-active, var(--button-text-color-ghost-active)) !important;
+  }
+}
+
+/* Shared spacing */
+/* Firefox <= 150: XUL menu item and description label */
+#searchmode-switcher-popup > menuitem,
+#searchmode-switcher-popup-description,
+/* Nova | Firefox >= 151: HTML description */
+.searchmode-switcher-panel .searchmode-switcher-panel-description {
+  box-sizing: border-box !important;
+  min-height: var(--uc-panel-menuitem-min-height) !important;
+  margin: var(--panel-menuitem-margin) !important;
+  padding: var(--panel-menuitem-padding-block) var(--panel-menuitem-padding-inline) !important;
+  border: 0 !important;
+  border-radius: var(--panel-menuitem-border-radius) !important;
+}
+
+/* Shared caption font */
+/* Firefox <= 150: XUL label */
+#searchmode-switcher-popup-description,
+/* Nova | Firefox >= 151: HTML description */
+.searchmode-switcher-panel .searchmode-switcher-panel-description {
+  font-size: var(--uc-panel-menuitem-font-size, inherit) !important;
+}
+
+/* Shared full-width separators */
+/* Firefox <= 150 */
+#searchmode-switcher-popup > menuseparator:not([hidden]),
+/* Nova | Firefox >= 151 */
+.searchmode-switcher-panel > .searchmode-switcher-panel-list > hr:not([hidden]) {
+  background: none !important;
+  border: 0 !important;
+  border-block-start: 1px solid var(--panel-separator-color) !important;
+  block-size: auto !important;
+  margin: var(--panel-separator-padding) !important;
+  padding: 0 !important;
 }
 
 /*

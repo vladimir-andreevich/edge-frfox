@@ -989,6 +989,69 @@
 }
 
 /*
+  MARK: Search mode switcher
+*/
+
+/*
+  Shared icon mapping for local search and Settings
+  Firefox >= 151 uses HTML panel-item classes. Firefox <= 150 uses XUL menuitem IDs.
+*/
+:is(#searchmode-switcher-popup, .searchmode-switcher-panel > .searchmode-switcher-panel-list) {
+  > :is(#search-button-bookmarks, .search-button-bookmarks) {
+    --uc-searchmode-icon: url("bookmark-star-on-tray.svg");
+  }
+
+  > :is(#search-button-tabs, .search-button-tabs) {
+    --uc-searchmode-icon: url("tab.svg");
+  }
+
+  > :is(#search-button-history, .search-button-history) {
+    --uc-searchmode-icon: url("history.svg");
+  }
+
+  > :is(#search-button-actions, .search-button-actions) {
+    --uc-searchmode-icon: url("actions.svg");
+  }
+
+  > :is(#searchmode-switcher-popup-search-settings-button, .searchmode-switcher-panel-search-settings-button) {
+    --uc-searchmode-icon: url("settings.svg");
+  }
+}
+
+/*
+  Nova | Firefox >= 151
+  Paint the replacement icon on the panel-item shadow button in Nova and Proton.
+*/
+@container uc-searchmode-menu style(--uc-searchmode-icon) {
+  button[part~="button"] {
+    background-image: var(--uc-searchmode-icon) !important;
+  }
+}
+
+/*
+  Firefox <= 150
+  Paint the replacement icon on the XUL menuitem.
+*/
+#searchmode-switcher-popup > :is(#search-button-bookmarks, #search-button-tabs, #search-button-history, #search-button-actions, #searchmode-switcher-popup-search-settings-button) {
+  background-image: var(--uc-searchmode-icon) !important;
+  background-size: var(--uc-panel-menuicon-size) !important;
+  background-position: left var(--panel-menuitem-padding-inline) center !important;
+  background-repeat: no-repeat !important;
+  -moz-context-properties: fill, fill-opacity !important;
+  fill: currentColor !important;
+
+  &:dir(rtl) {
+    background-position-x: right var(--panel-menuitem-padding-inline) !important;
+  }
+
+  :is(.menu-icon, /* Firefox 139–150 */
+      .menu-iconic-icon /* Firefox <= 138 */
+  ) {
+    visibility: hidden !important;
+  }
+}
+
+/*
   MARK: App menu header
 */
 
